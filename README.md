@@ -40,7 +40,7 @@ Containing the files:
 <p>Dedicated to you!</p>
 ```
 
-`data/products.json`
+`data/products/index.json`
 
 ```json
 {
