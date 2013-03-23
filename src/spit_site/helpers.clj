@@ -14,13 +14,19 @@
 
 (defn path-of
   "Extract the directory component(s) of a file path"
+  ; TODO this doesn't handle java.io.File's that point to directories
   [the-file]
   (let [sep java.io.File/separator
         file-path (.getPath the-file)
         only-path (join sep (butlast (split file-path (re-pattern sep))))]
     (if-not (blank? only-path) only-path)))
 
-; File utils
+(defn has-extension?
+  "Predicate that determines if a given file has the given extension"
+  [ext file]
+  (.equals ext (-> (.getName file) (split #"\.") (last))))
+
+; File system utils
 
 (defn wipe-dir
   "Clean out a given directory by removing all contained
@@ -33,7 +39,3 @@
         (println (str (if dry-run "NOT " "") "Deleting " (.toString del-file)))
         (if-not dry-run (delete-file del-file))))))
 
-(defn has-extension?
-  "Predicate that determines if a given file has the given extension"
-  [ext file]
-  (.equals ext (-> (.getName file) (split #"\.") (last))))
