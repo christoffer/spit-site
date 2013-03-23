@@ -10,12 +10,13 @@ Given the following directory structure:
 
 ```
 root
- |__ templates
-      |____ products
-              |______index.mustache
-      |____ about.mustache
- |__ data
-      |_____products/index.json
+ |_ templates
+     |_ products
+         |_ index.mustache
+     |_ about.mustache
+ |_ data
+     |_ products
+         |_ index.json
 ```
 
 Containing the files:
