@@ -8,7 +8,7 @@
   (let [uri-base (.toURI base-file)
         uri-path (.toURI path-file)
         relative-path (.getPath (.relativize uri-base uri-path))]
-    (if (.equals (.getAbsolutePath path-file) relative-path)
+    (if (.equals relative-path (.getAbsolutePath path-file))
       nil ; Was not relative to the base
       relative-path)))
 
