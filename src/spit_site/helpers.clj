@@ -15,11 +15,10 @@
 (defn path-of
   "Extract the directory component(s) of a file path"
   [the-file]
-  (let [path (.getPath the-file)
-        name (.getName the-file)
-        diff (- (count path) (count name))
-        resolved-path (-> (take (- diff 1) path) (join))]
-    (if (-> (count resolved-path) (= 0)) nil resolved-path)))
+  (let [sep java.io.File/separator
+        file-path (.getPath the-file)
+        only-path (join sep (butlast (split file-path (re-pattern sep))))]
+    (if (= 0 (count only-path)) nil only-path)))
 
 ; File utils
 

@@ -25,20 +25,17 @@
           the-path (path-of the-file)]
       (is (= nil the-path)))))
 
-(deftest filter-on-extension-test
-  (let [txt-a (file "a.txt")
-        img-file (file "some/path/with/txt/in/it/txt.png")
-        txt-b (file "b.txt")
-        all-files [txt-a img-file txt-b]]
+(deftest has-extension?-test
+  (let [text-file (file "poetry.txt")
+        xml-file-with-path (file "some/path/Manifest.xml")
+        extension-less (file "Procfile")]
 
-    (testing "filters on extension for matches with paths"
-      (is (= [img-file] (filter-on-extension all-files "png"))))
+    (testing "returns true when extension match"
+      (is (= true (has-extension? "txt" text-file)))
+      (is (= true (has-extension? "xml" xml-file-with-path))))
 
-    (testing "filters on extension for multiple matches"
-      (is (= [txt-a txt-b] (filter-on-extension all-files "txt"))))
+    (testing "returns false when extension does not match"
+      (is (= false (has-extension? "png" text-file))))
 
-    (testing "returns empty list when no matches"
-      (is (= [] (filter-on-extension all-files "unicorn"))))
-
-    (testing "returns empty list when given no files"
-      (is (= [] (filter-on-extension [] "txt"))))))
+    (testing "returns false for files that are missing an extension"
+      (is (= false (has-extension? "" extension-less))))))
