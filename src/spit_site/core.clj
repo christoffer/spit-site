@@ -15,8 +15,8 @@
   "Transform a tmpl map to a data file pointer"
   [tmpl data-root]
   (let [fname (clojure.string/replace (:name tmpl) #"[.]mustache$" ".json")
-        path (str (:path tmpl) java.io.File/separator fname)]
-    (file data-root path)))
+        path (if (:path tmpl) (str (:path tmpl) java.io.File/separator))]
+    (file data-root (str path fname))))
 
 (defn get-templates
   "Gather all templates from the template resource directory and return them
@@ -36,7 +36,7 @@
     (if-not (.exists (file template-root))
       (println "The template directory\"" (.toString template-root) "\"does not exist"))
     (doseq [tmpl (get-templates template-root)]
-      (println tmpl)
+      (println (str "Processing " tmpl))
       (println (tmpl->data-file tmpl data-root)))))
 
 (defn -main [& args]
