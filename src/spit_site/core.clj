@@ -5,32 +5,20 @@
         [clostache.parser]
         [clojure.tools.cli :only [cli]]))
 
-; just a sample set of products until the data part is
-; implemented
-(def placeholder-products
-  {:products [{:id "sku-101"
-               :name "Product with all information"
-               :price 19.90
-               :description "This is the description"}
-              {:id "sku-102"
-               :name "Product without description"
-               :price 19.90}
-              {:name "Minimal product (only name)"}
-              ]})
-
 (defn gather-templates
   "Gather all templates from the template resource directory."
   [template-root]
   (map
-    #(assoc {} :file % :relative-path (path-of (file (relativize template-root %))))
+    #(assoc {} :path (path-of (relativize template-root %)) :name (.getName %))
     (filter #(has-extension? "mustache" %) (file-seq template-root))))
 
-(defn actualize-templates
-  "Transform a sequence of template maps into a file structure"
-  [templates]
-  (doseq [tmpl templates]
-    (println (str "Would create: " (tmpl :relative-path)))))
-
+(defn accompaning-data
+  "Look for an accompaning data (json) file to a template and return
+  it's content as a map. If none is found then return an empty map"
+  [tmpl data-root]
+  (if (.exists (file data-root (:path tmpl)))
+    (str "Existing " (.getPath (file data-root (:path tmpl))))
+    (str "Non existing " (.getPath (file data-root (:path tmpl))))))
 ; (actualize-templates (all-templates-from (resource "templates")))
 
 (defn spit-site
