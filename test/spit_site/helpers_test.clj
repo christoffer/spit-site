@@ -4,18 +4,16 @@
         [clojure.java.io :only [file]]))
 
 (deftest relativize-test
-  (testing "Relativize with sub dir"
-    (is (= "a/b/c" (relativize
-                     (file "base/dir")
-                     (file "base/dir/a/b/c")))))
+  (testing "strips out the base of the two dirs"
+    (let [expected (file "a/b/c")
+          actual (relativize (file "base/dir") (file "base/dir/a/b/c"))]
+      (is (= expected actual))))
 
-  (testing "Relativize is empty when path is not a sub path"
-    (is (= nil (relativize
-                 (file "a/b/c")
-                 (file "d/e/f"))))))
+  (testing "returns nil when there is no common base"
+    (is (= nil (relativize (file "a/b/c") (file "d/e/f"))))))
 
 (deftest path-of-test
-  (testing "splits a path and a filename in two"
+  (testing "returns the path component of a composite path"
     (let [the-file (file "the/path/the-filename.txt")
           the-path (path-of the-file)]
       (is (= "the/path" the-path))))

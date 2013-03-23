@@ -1,6 +1,6 @@
 (ns spit-site.helpers
   (:use [clojure.java.io :only (file delete-file)]
-        [clojure.string :only (join)]))
+        [clojure.string :only (join split)]))
 
 (defn relativize
   "Takes two files and returns the relative path between them"
@@ -10,7 +10,7 @@
         relative-path (.getPath (.relativize uri-base uri-path))]
     (if (.equals relative-path (.getAbsolutePath path-file))
       nil ; Was not relative to the base
-      relative-path)))
+      (file relative-path))))
 
 (defn path-of
   "Extract the directory component(s) of a file path"
