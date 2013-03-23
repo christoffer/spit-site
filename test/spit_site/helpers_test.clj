@@ -19,9 +19,10 @@
       (is (= "the/path" the-path))))
 
   (testing "returns nil when there's no path"
-    (let [the-file (file "the-filename.txt")
-          the-path (path-of the-file)]
-      (is (= nil the-path)))))
+    (let [sole-file (file "the-filename.txt")
+          root-file (file "/filename")]
+      (is (= nil (path-of sole-file)))
+      (is (= nil (path-of root-file))))))
 
 (deftest has-extension?-test
   (let [text-file (file "poetry.txt")

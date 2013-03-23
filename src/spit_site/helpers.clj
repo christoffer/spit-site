@@ -1,6 +1,6 @@
 (ns spit-site.helpers
   (:use [clojure.java.io :only (file delete-file)]
-        [clojure.string :only (join split)]))
+        [clojure.string :only (join split blank?)]))
 
 (defn relativize
   "Takes two files and returns the relative path between them"
@@ -18,7 +18,7 @@
   (let [sep java.io.File/separator
         file-path (.getPath the-file)
         only-path (join sep (butlast (split file-path (re-pattern sep))))]
-    (if (= 0 (count only-path)) nil only-path)))
+    (if-not (blank? only-path) only-path)))
 
 ; File utils
 
