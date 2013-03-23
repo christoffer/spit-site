@@ -23,7 +23,7 @@
   [template-root]
   (map
     #(assoc {} :file % :relative-path (path-of (file (relativize template-root %))))
-    (filter-on-extension (file-seq template-root) "mustache")))
+    (filter #(has-extension? "mustache" %) (file-seq template-root))))
 
 (defn actualize-templates
   "Transform a sequence of template maps into a file structure"

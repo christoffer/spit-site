@@ -33,7 +33,7 @@
         (println (str (if dry-run "NOT " "") "Deleting " (.toString del-file)))
         (if-not dry-run (delete-file del-file))))))
 
-(defn filter-on-extension
-  "Filtes the provided list of files on extension"
-  [file-coll ext]
-  (filter #(.endsWith (.getName %) (str "." ext)) file-coll))
+(defn has-extension?
+  "Predicate that determines if a given file has the given extension"
+  [ext file]
+  (.equals ext (-> (.getName file) (split #"\.") (last))))
